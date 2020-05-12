@@ -1,7 +1,7 @@
 
 <!--   <link href="<?= base_url()  ?>assets/css/demo_table.css" rel="stylesheet" /> -->
   <link rel="stylesheet" type="text/css" href="<?= base_url('')  ?>assets/css/jquery.dataTables.min.css">
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="<?= base_url('')  ?> assets/css/buttons.dataTables.min.css">
 <!--   <link rel="stylesheet" href="<?= base_url()  ?>assets/css/DT_bootstrap.css" />
  -->  
     <!--main content start-->
@@ -25,21 +25,21 @@
               <br>
              <?php if($this->uri->segment(2) == 'mahasiswa'){ ?>
               <label class="control-label col-md-3">Kriteria</label>
-                <select class="form-control form-control-inline input-medium " name="level" required>
-                  <option value="kepribadian">Kepribadian</option>
-                  <option value="pendagogik">Pendagogik</option>
-                  <option value="sosial">Sosial</option>
+                <select class="form-control form-control-inline input-medium " name="kriteria" required>
+                  <option value="1">Kepribadian</option>
+                  <option value="2">Pendagogik</option>
+                  <option value="3">Sosial</option>
                 </select>
              <?php } else if($this->uri->segment(2) == 'rekan'){?>
                 <label class="control-label col-md-3">Kriteria</label>
-                <select class="form-control form-control-inline input-medium " name="level" required>
-                  <option value="kepribadian">Kepribadian</option>
-                  <option value="pendagogik">Pendagogik</option>
-                  <option value="profesional">Profesional</option>
-                  <option value="sosial">Sosial</option>
+                <select class="form-control form-control-inline input-medium " name="kriteria" required>
+                  <option value="4">Kepribadian</option>
+                  <option value="5">Pendagogik</option>
+                  <option value="6">Profesional</option>
+                  <option value="7">Sosial</option>
                 </select>
             <?php } ?>
-
+ 
             </div>
             <div class="modal-footer">
 
@@ -67,7 +67,7 @@
                 </thead>
                 <tbody>
                   <?php
-                    $no=0;
+                    $no =1;
                    foreach ($que as $value): ?>
                     <tr>
                       <td><?= $no++  ?></td>
@@ -98,24 +98,24 @@
                                    <br>
                                    <?php if($this->uri->segment(2) == 'mahasiswa'){ ?>
                                     <label class="control-label col-md-3">Kriteria</label>
-                                      <select class="form-control form-control-inline input-medium " name="level" required>
-                                        <option value="kepribadian" <?= $value->kriteria == 'kepribadian' ? 'selected' :'';  ?>
+                                      <select class="form-control form-control-inline input-medium " name="kriteria" required>
+                                        <option value="1" <?= $value->kriteria == 'kepribadian' ? 'selected' :'';  ?>
                                         >Kepribadian</option>
-                                        <option value="pendagogik" <?= $value->kriteria == 'pendagogik' ? 'selected' :'';  ?>
+                                        <option value="2" <?= $value->kriteria == 'pendagogik' ? 'selected' :'';  ?>
                                         >Pendagogik</option>
-                                        <option value="sosial"<?= $value->kriteria == 'sosial' ? 'selected' :'';  ?>
+                                        <option value="3"<?= $value->kriteria == 'sosial' ? 'selected' :'';  ?>
                                         >Sosial</option>
                                       </select>
                                    <?php } else if($this->uri->segment(2) == 'rekan'){?>
                                       <label class="control-label col-md-3">Kriteria</label>
-                                      <select class="form-control form-control-inline input-medium " name="level" required>
-                                        <option value="kepribadian"  <?= $value->kriteria == 'kepribadian' ? 'selected' :'';  ?>
+                                      <select class="form-control form-control-inline input-medium " name="kriteria" required>
+                                        <option value="4"  <?= $value->kriteria == 'kepribadian' ? 'selected' :'';  ?>
                                         >Kepribadian</option>
-                                        <option value="pendagogik" <?= $value->kriteria == 'pendagogik' ? 'selected' :'';  ?>
+                                        <option value="5" <?= $value->kriteria == 'pendagogik' ? 'selected' :'';  ?>
                                         >Pendagogik</option>
-                                          <option value="profesional" <?= $value->kriteria == 'profesional' ? 'selected' :'';  ?>
+                                          <option value="6" <?= $value->kriteria == 'profesional' ? 'selected' :'';  ?>
                                           >Profesional</option>
-                                        <option value="sosial" <?= $value->kriteria == 'sosial' ? 'selected' :'';  ?>
+                                        <option value="7" <?= $value->kriteria == 'sosial' ? 'selected' :'';  ?>
                                         >Sosial</option>
                                       </select>
                                   <?php } ?>
@@ -195,7 +195,7 @@
         //     $(this).append('&emsp;<button class="btn-info" data-toggle="modal" href="#add" type="button">Tambah User</button>');
         //   });
         // },
-          "scrollY": 210,
+          "scrollY": 400,
 
          // "scrollX": 350s,
          "info": false,

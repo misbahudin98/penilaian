@@ -88,6 +88,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </ul>
           </li>
           <li class="sub-menu ">
+            <a  href="javascript:;"><!-- class="active" -->
+              <i class="fa fa-list-ul"></i>
+              <span>Pembobotan</span>
+              </a>
+            <ul class="sub">
+              <li ><a href="<?= base_url('kriteria/atasan')  ?>">Pembobotan Atasan</a></li>
+              <li ><a href="<?= base_url('kriteria/mahasiswa')  ?>">Pembobotan Kriteria Mahasiswa</a></li>
+              <li ><a href="<?= base_url('kriteria/rekan')  ?>">Pembobotan Kriteria Rekan Sejawat</a></li>
+            </ul>
+          </li>
+          <li class="sub-menu ">
             <a  href="<?= base_url('skor') ?>">
               <i class="fa fa-edit"></i>
               <span>Skor</span>

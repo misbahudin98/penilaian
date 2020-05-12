@@ -13,12 +13,12 @@ class User extends CI_Model {
 		return $this->db->get_where($table,$where); 		
 	}
 
-	public function que()
+	public function que($level)
 	{
-		$this->db->select('*');
-		$this->db->from('kuesioner');		
-		$this->db->join('kriteria','kuesioner.id_kriteria=kriteria.id','inner'); 		
-		return $this->db->get();
+		return $this->db->query("SELECT 
+			u.id as id,u.kuesioner , k.kriteria ,level,jumlah, bobot
+		 FROM  kuesioner u INNER JOIN kriteria k  on k.id = u.id_kriteria where k.level = '".$level."'");
+
 	}
 
 	public function check($table,$where)

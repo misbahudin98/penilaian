@@ -56,6 +56,10 @@ $route['ubah_user'] = 'Admin/update_user';
 $route['hapus_user/(:num)'] = 'Admin/delete_user/$1';
 $route['skor'] = 'score';
 
+$route['kriteria/(:any)'] = 'Admin/criteria/$1';
+$route['perhitungan/(:any)'] = 'Admin/count/$1';
+
+
 $route['que/(:any)'] = 'Admin/que/$1';
 $route['tambah_que'] = 'Admin/add_que';
 $route['ubah_que'] = 'Admin/update_que';
