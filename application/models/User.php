@@ -17,7 +17,7 @@ class User extends CI_Model {
 	{
 		return $this->db->query("SELECT 
 			u.id as id,u.kuesioner , k.kriteria ,level,jumlah, bobot
-		 FROM  kuesioner u INNER JOIN kriteria k  on k.id = u.id_kriteria where k.level = '".$level."'");
+		 FROM  kuesioner u INNER JOIN kriteria k  on k.id = u.id_kriteria where k.level = '".$level."' " );
 
 	}
 

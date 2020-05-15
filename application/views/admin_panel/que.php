@@ -1,7 +1,7 @@
 
 <!--   <link href="<?= base_url()  ?>assets/css/demo_table.css" rel="stylesheet" /> -->
   <link rel="stylesheet" type="text/css" href="<?= base_url('')  ?>assets/css/jquery.dataTables.min.css">
-  <link rel="stylesheet" type="text/css" href="<?= base_url('')  ?> assets/css/buttons.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="<?= base_url(' ')  ?> assets/css/buttons.dataTables.min.css">
 <!--   <link rel="stylesheet" href="<?= base_url()  ?>assets/css/DT_bootstrap.css" />
  -->  
     <!--main content start-->
