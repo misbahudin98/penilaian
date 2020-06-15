@@ -199,6 +199,29 @@ INSERT INTO `user` (`id`, `password`, `nama`, `level`) VALUES
 (1641720066, '41008f06b76981093c7aa369d83c08ea', 'sumi', 'dosen'),
 (1641720067, 'ffecba6889b7f73d28b55794d9727593', 'milos', 'dosen');
 
+CREATE TABLE `buka` (
+  `id` int(11) NOT NULL,
+  `aksi` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `buka`
+--
+
+INSERT INTO `buka` (`id`, `aksi`) VALUES
+(1, 1);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indeks untuk tabel `buka`
+--
+ALTER TABLE `buka`
+  ADD PRIMARY KEY (`id`);
+COMMIT;
+
 --
 -- Indexes for dumped tables
 --

@@ -21,6 +21,11 @@ class User extends CI_Model {
 
 	}
 
+	public function inner()
+	{
+		return $this->db->query("SELECT u.nama as penilai , e.nama as objek   FROM skor_awal s inner join user u on s.id_penilai = u.id inner join user e on s.id_dosen = e.id where  s.skor = ''" );
+	}
+
 
 	public function skor_awal()
 	{

@@ -14,8 +14,20 @@ class Admin extends CI_Controller {
 	}
 	public function index()
 	{
+		$data['skor'] = $this->User->inner()->result_array();
+		$data['buka'] = $this->User->get('buka')->result_array();
+		// var_dump($data) or die;
 		$this->load->view('header');
-		$this->load->view('admin_panel/main');	
+		$this->load->view('admin_panel/main',$data);	
+	}
+	public function session($value)
+	{
+		if ($value == 1){
+			$this->User->update('buka',['aksi' => 1 ],['id' => 1] );
+		}elseif ($value == 0) {
+			$this->User->update('buka',['aksi' => 0 ],['id' => 1]);
+		}
+		redirect('awal');
 	}
 
 

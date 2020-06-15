@@ -71,6 +71,8 @@ $route['hapus_user/(:num)'] = 'Admin/delete_user/$1';
 $route['ubah_bobot/(:any)'] = 'Admin/update_value/$1';
 $route['kriteria/(:any)'] = 'Admin/criteria/$1';
 $route['perhitungan/(:any)'] = 'Admin/count/$1';
+$route['sesi/(:any)'] = 'Admin/session/$1';
+
 
 
 $route['que/(:any)'] = 'Admin/que/$1';
