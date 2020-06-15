@@ -42,9 +42,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <h2 class="form-login-heading">sign in now</h2>
         <div class="login-wrap">
       <?php if($this->session->flashdata('error') == true){ ?>
-          <div class="alert alert-info">
+          <div class="alert alert-warning">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <strong >Title!</strong> Alert body ...
+            <strong >Salah !!!</strong> mohon periksa kembali masukan anda
           </div>
       <?php  } ?>
 

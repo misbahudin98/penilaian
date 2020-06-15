@@ -28,19 +28,6 @@
               
               <input class="form-control form-control-inline input-medium " type="text" name="nama" required>
               <br>
-              <label class="control-label col-md-3">Tanggal Lahir</label>
-              
-              <input class="form-control form-control-inline input-medium " type="date" name="tanggal_lahir" required>
-              <br>
-              <label class="control-label col-md-3">Alamat</label>
-              
-              <input class="form-control form-control-inline input-medium " type="text" name="alamat" required>
-              <br>
-
-              <label class="control-label col-md-3">Nomor HP</label>
-              
-              <input class="form-control form-control-inline input-medium " type="number" name="hp" required>
-              <br>
               <label class="control-label col-md-3">Level </label>
               
               <select class="form-control form-control-inline input-medium " name="level" required>
@@ -61,7 +48,7 @@
         </div>
       </div>
       <section class="wrapper site-min-height">
-        <h3><i class="fa fa-angle-right"></i>Data User</h3>
+        <h3><i class="fa fa-angle-right"></i>Tabel Penlilaian</h3>
         <div class="row ">
           <!-- page start-->
           <div class="content-panel" style="margin-left: 15px;margin-right: 15px; ">
@@ -70,89 +57,47 @@
               <table cellpadding="0" cellspacing="0" border="0" class="display table table-bordered" id="hidden-table-info">
                 <thead>
                   <th>No</th>
-                  <th>ID</th>
+                  <th>Kuesioner</th>
 
-                  <th>Nama</th>
-                  <th>Tanggal Lahir</th>
-                  <th>Alamat</th>
-                  <th>Nomor HP</th>
-                  <th>Level</th>
-                  <th>Action</th>
+                  <th>Penilaian</th>
+
                 </thead>
                 <tbody>
+                  <form method="post" action="<?= base_url('simpan_nilai')  ?>" >
                   <?php
-                    $no=0;
-                   foreach ($user as $value): ?>
+                    $no=1;
+                    // $a = '';
+                   foreach ($kue as $value): ?>
                     <tr>
                       <td><?= $no++  ?></td>
-                      <td><?= $value->id  ?></td>
+                      <td><?= $value['kuesioner']  ?></td>
 
-                      <td><?= $value->nama  ?></td>
-                      <td><?= $value->tanggal_lahir  ?></td>
-                      <td><?= $value->alamat  ?></td>
-                      <td><?= $value->hp  ?></td>
-                      <td><?= $value->level  ?></td>
                       <td>
-                        <a class="btn btn-primary" data-toggle="modal" href='#<?= $value->id ?>'>Edit</a>
-                        <a href="<?= base_url('hapus_user/'.$value->id) ?>" class="btn btn-danger" 
-                          onclick = "if (! confirm('apakah anda yakin ingin menghapus ?')) { return false; }">Delete</a>
-                        
+
+                        <select name="<?= $value['id'] ?>" required>
+                          <option value="">Nilai</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                        </select>
+
                       </td>
-                      <div class="modal fade" id="<?= $value->id  ?>">
-                          <div class="modal-dialog">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <h4 class="modal-title">Edit user</h4>
-                              </div>
-                              <form action="<?= base_url('ubah_user') ?>" method='POST' name='ubah_user'>
-                              <div class="modal-body">
-                                  <input class="form-control form-control-inline input-medium " minlength="12" type="hidden" name="id_real" value="<?= $value->id  ?>"  >
-                                  <label class="control-label col-md-3">Id</label>
 
-                                  <input class="form-control form-control-inline input-medium " minlength="12" type="number" name="id1" value="<?= $value->id  ?>"  required>
-                                   <br>
-                                  <label class="control-label col-md-3">Pasword</label>
-                                  
-                                  <input class="form-control form-control-inline input-medium " type="text" name="password1" value="<?= $value->password  ?>" required>
-                                  <br>
-                                  <label class="control-label col-md-3">Nama</label>
-                                  
-                                  <input class="form-control form-control-inline input-medium " type="text" name="nama1" value="<?= $value->nama  ?>" required>
-                                  <br>
-                                  <label class="control-label col-md-3">Tanggal Lahir</label>
-                                  
-                                  <input class="form-control form-control-inline input-medium " type="date" name="tanggal_lahir1" value="<?= $value->tanggal_lahir  ?>" required>
-                                  <br>
-                                  <label class="control-label col-md-3">Alamat</label>
-                                  
-                                  <input class="form-control form-control-inline input-medium " type="text" name="alamat1" value="<?= $value->alamat  ?>" required>
-                                  <br>
-
-                                  <label class="control-label col-md-3">Nomor HP</label>
-                                  
-                                  <input class="form-control form-control-inline input-medium " type="number" name="hp1" value="<?= $value->hp  ?>" required>
-                                  <br>
-
-                                  <label class="control-label col-md-3">Level </label>
-                                  
-                                  <select class="form-control form-control-inline input-medium " name="level1">
-                                    <option value="admin" <?= $value->level == "admin" ?  "selected":  " ";  ?> >Admin</option>
-                                    <option  value="atasan" <?= $value->level == "atasan" ?  "selected": " ";  ?> >Atasan</option>
-                                    <option value="dosen" <?= $value->level == "dosen" ?  "selected": " ";  ?> >Dosen</option>
-                                    <option value="mahasiswa" <?=  $value->level == "mahasiswa" ?  "selected": " ";  ?> >Mahasiswa</option>
-                                  </select>                                
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <input type="submit" class="btn btn-primary add" name="tambah" value="tambah1">
-                              </div>
-                              </form>
-                            </div>
-                          </div>
-                        </div>
+                    <input type="text" name="id" value="<?= $this->uri->segment(2)  ?>" hidden>
                     </tr>
-                  <?php endforeach ?>
+                  <?php
+
+                   // if ($no == 2 ) {
+                   //     $a = $value['id'];
+                   //  } elseif ($no > 2) {
+                   //     $a = $a.','.$value['id'];
+                   //  } 
+                     
+                   endforeach ?>
+                    <tr><td colspan="3"><center><input type="submit" name="" value="Simpan" class="btn btn-success"></td></tr>
+                  </form>
                 </tbody>
               </table>
             </div>
@@ -219,22 +164,7 @@
          // "scrollX": 350s,
          "info": false,
          "paging": false,
-        "aoColumnDefs": [{
-            "bSortable": false,
-            "aTargets": [0],
-          }],
-
-        "aaSorting": [
-            [1, 'asc']
-          ],
-           dom: 'Bfrtip',
-        buttons: [
-            {text: 'Tambah User',className: 'btn btn-info',
-              action: function ( e, dt, node, config ) {
-                $('#add').modal('show');
-              }
-            }
-        ]  
+          
       });
 
 // $('#hidden-table-info').find('tbody').append("<tr><td><value1></td><td><value1></td></tr>");

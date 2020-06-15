@@ -1,7 +1,7 @@
 
 <!--   <link href="<?= base_url()  ?>assets/css/demo_table.css" rel="stylesheet" /> -->
   <link rel="stylesheet" type="text/css" href="<?= base_url('')  ?>assets/css/jquery.dataTables.min.css">
-  <link rel="stylesheet" type="text/css" href="<?= base_url(' ')  ?> assets/css/buttons.dataTables.min.css">
+  <link rel="stylesheet" type="text/css" href="<?= base_url('')  ?>assets/css/buttons.dataTables.min.css">
 <!--   <link rel="stylesheet" href="<?= base_url()  ?>assets/css/DT_bootstrap.css" />
  -->  
     <!--main content start-->
@@ -37,9 +37,15 @@
                   <option value="5">Pendagogik</option>
                   <option value="6">Profesional</option>
                   <option value="7">Sosial</option>
+                </select> 
+            <?php } elseif ($this->uri->segment(2) == 'atasan') {?>
+                <label class="control-label col-md-3">Kriteria</label>
+                <select class="form-control form-control-inline input-medium " name="kriteria" required>
+                  <option value="8">Kepribadian</option>
+                  <option value="9">Pendagogik</option>
+                  <option value="10">Sosial</option>
                 </select>
-            <?php } ?>
- 
+            <?php  } ?>
             </div>
             <div class="modal-footer">
 
@@ -60,9 +66,8 @@
                 <thead>
                   <th>No</th>
                   <th>Kuesioner</th>
-                  <?php  if($this->uri->segment(2) != 'atasan') {?>
                   <th>Kriteria</th>
-                  <?php } ?>
+
                   <th>Aksi</th>
                 </thead>
                 <tbody>
@@ -72,9 +77,8 @@
                     <tr>
                       <td><?= $no++  ?></td>
                       <td><?= $value->kuesioner  ?></td>
-                  <?php if($this->uri->segment(2) != 'atasan') {?>
                       <td><?= $value->kriteria ?></td>
-                  <?php } ?>
+
                       <td>
                         <a class="btn btn-primary" data-toggle="modal" href='#<?= $value->id ?>'>Edit</a>
                         <a href="<?= base_url('hapus_que/'.$value->id) ?>" class="btn btn-danger" 
@@ -118,7 +122,18 @@
                                         <option value="7" <?= $value->kriteria == 'sosial' ? 'selected' :'';  ?>
                                         >Sosial</option>
                                       </select>
-                                  <?php } ?>
+                                    <?php } elseif ($this->uri->segment(2) == 'atasan'){?>
+                                      <label class="control-label col-md-3">Kriteria</label>
+                                      <select class="form-control form-control-inline input-medium " name="kriteria" required>
+                                        <option value="8"  <?= $value->kriteria == 'kepribadian' ? 'selected' :'';  ?>
+                                        >Kepribadian</option>
+                                        <option value="9" <?= $value->kriteria == 'pendagogik' ? 'selected' :'';  ?>
+                                        >Pendagogik</option>
+                                        <option value="10" <?= $value->kriteria == 'sosial' ? 'selected' :'';  ?>
+                                        >Sosial</option>
+                                      </select>
+                                    <?php  }?>
+
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -206,7 +221,7 @@
           }],
 
         "aaSorting": [
-            [1, 'asc']
+            [0  , 'asc']
           ],
            dom: 'Bfrtip',
         buttons: [
@@ -243,14 +258,6 @@
          // "scrollX": 350s,
          "info": false,
          "paging": false,
-        "aoColumnDefs": [{
-            "bSortable": false,
-            "aTargets": [0],
-          }],
-
-        "aaSorting": [
-            [1, 'asc']
-          ],
            dom: 'Bfrtip',
         buttons: [
             {text: 'Tambah Kuesioner',className: 'btn btn-info',

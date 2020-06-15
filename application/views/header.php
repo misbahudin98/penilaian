@@ -62,9 +62,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <div id="sidebar" class="nav-collapse ">
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
-          <p class="centered"><a href="profile.html"><img src="<?= base_url();?>assets/img/ui-sam.jpg" class="img-circle" width="80"></a></p>
-          <h5 class="centered">Sam Soffes</h5>
-          <li class=" mt">
+<!--           <p class="centered"><a href="profile.html"><img src="<?= base_url();?>assets/img/ui-sam.jpg" class="img-circle" width="80"></a></p>
+          <h5 class="centered">Sam Soffes</h5> -->
+          <?php if ($this->session->userdata('level') == 'admin'){ ?>
+                      <li class=" mt">
             <a href="<?= base_url('awal') ?>">
               <i class="fa fa-dashboard"></i>
               <span>Dashboard</span>
@@ -82,28 +83,49 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <span>Kuesioner</span>
               </a>
             <ul class="sub">
-              <li ><a href="<?= base_url('que/atasan')  ?>">Kuesioner Atasan</a></li> 
-              <li ><a href="<?= base_url('que/mahasiswa')  ?>">Kuesioner Mahasiswa</a></li> 
-              <li ><a href="<?= base_url('que/rekan')  ?>">Kuesioner Rekan Sejawat</a></li> 
+              <li ><a href="<?= base_url('que/atasan')  ?>"> Atasan</a></li> 
+              <li ><a href="<?= base_url('que/mahasiswa')  ?>"> Mahasiswa</a></li> 
+              <li ><a href="<?= base_url('que/rekan')  ?>"> Rekan Sejawat</a></li> 
             </ul>
           </li>
           <li class="sub-menu ">
             <a  href="javascript:;"><!-- class="active" -->
               <i class="fa fa-list-ul"></i>
-              <span>Pembobotan</span>
+              <span>Pembobotan Kriteria</span>
               </a>
             <ul class="sub">
-              <li ><a href="<?= base_url('kriteria/atasan')  ?>">Pembobotan Atasan</a></li>
-              <li ><a href="<?= base_url('kriteria/mahasiswa')  ?>">Pembobotan Kriteria Mahasiswa</a></li>
-              <li ><a href="<?= base_url('kriteria/rekan')  ?>">Pembobotan Kriteria Rekan Sejawat</a></li>
+              <li ><a href="<?= base_url('kriteria/atasan')  ?>">Atasan</a></li>
+              <li ><a href="<?= base_url('kriteria/mahasiswa')  ?>">Mahasiswa</a></li>
+              <li ><a href="<?= base_url('kriteria/rekan')  ?>">Rekan Sejawat</a></li>
             </ul>
           </li>
           <li class="sub-menu ">
-            <a  href="<?= base_url('skor') ?>">
+            <a  href="javascript:;"><!-- class="active" -->
               <i class="fa fa-edit"></i>
               <span>Skor</span>
               </a>
+            <ul class="sub">
+              <li ><a href="<?= base_url('skor') ?>">Penilai</a></li>
+              <!-- <li ><a href="<?= base_url('kue') ?>">Rata - Rata Penilaian</a></li> -->
+              <li ><a href="<?= base_url('akhir')  ?>">Skor Akhir</a></li>
+            </ul>
           </li>
+          <?php } else { ?>
+         <li class=" mt">
+            <a href="<?= base_url('penilai') ?>">
+              <i class="fa fa-dashboard"></i>
+              <span>Dashboard</span>
+              </a>
+          </li>
+
+          <li class="sub-menu">
+            <a href="<?= base_url('pilih') ?>">
+              <i class="fa fa-dashboard"></i>
+              <span>Kuesioner</span>
+            </a>
+          </li>
+
+          <?php } ?>
         </ul>
         <!-- sidebar menu end-->
       </div>

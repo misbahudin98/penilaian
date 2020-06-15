@@ -43,9 +43,14 @@ class Welcome extends CI_Controller {
 		}	
 		// var_dump($cek->num_rows()) or die;
 		if($cek->num_rows() > 0){
-			$array = 	array( 'nip' => $nip , 'status' => 'login' ,'level' => $level);
+			$array = 	array( 'nip' => $id , 'status' => 'login' ,'level' => $level);
 			$this->session->set_userdata( $array );
-			redirect('awal');
+			if ($level == 'admin') {
+				redirect('awal');
+			}else{
+				redirect('penilai');
+			}
+
 		} else {
 			$this->session->set_flashdata('error', true);
 			redirect();
