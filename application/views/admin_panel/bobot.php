@@ -9,11 +9,11 @@
                 <h3>CR <= 0.1</h3>
               </div>
         <div class="row mt">
-          <div class="col-sm-4">
+          <div class="col-sm-12">
                      <!-- page start-->
           <div class="content-panel" style="margin-left: 15px;margin-right: 15px; ">
             <div class="adv-table" style="margin-left: 15px; margin-right: 15px ;">
-              <h3>Table Vektor Prioritas </h3>
+              <h3>Tabel Vektor Prioritas </h3>
 
               <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped table-responsive table-bordered">
                 <thead>
@@ -46,12 +46,15 @@
             </div>
           </div>
 
+          <br>
+
           </div>
-          <div class="col-md-7">
+
+          <div class="col-md-12">
                     <!-- page start-->
           <div class="content-panel" style="margin-left: 15px;margin-right: 15px; ">
             <div class="adv-table" style="margin-left: 15px; margin-right: 15px ;">
-              <h3>Table Sintesis</h3>
+              <h3>Tabel Sintesis </h3>
               <table cellpadding="0" cellspacing="0" border="0" class="display table table-striped table-responsive table-bordered">
                 <thead>
                   <th></th>
@@ -71,11 +74,11 @@
                   for ($i=0; $i < count($awal) ; $i++) { ?>
                   <tr>
                     <td>K<?= $i+1 ?></td>
-                    <td><?= $pembagian[0][$i]  ;?></td>
-                    <td><?= $pembagian[1][$i]  ;?></td>
-                    <td><?= $pembagian[2][$i]  ;?></td>
+                    <td><?= $pembagian[$i][0]  ;?></td>
+                    <td><?= $pembagian[$i][1]  ;?></td>
+                    <td><?= $pembagian[$i][2]  ;?></td>
                   <?php if (count($awal) == 4): ?>
-                    <td><?= $pembagian[3][$i]  ?></td>
+                    <td><?= $pembagian[$i][3]  ?></td>
                   <?php endif ?>  
                     
                     <td><?= $pembagian[4][$i]  ?></td>
@@ -84,7 +87,7 @@
                   <?php } ?>
 
                 </tbody>
-              </table>
+              </table>x
             </div>
           </div>            
           </div>
@@ -94,10 +97,10 @@
         <div class="col-md-6">
           <div class="content-panel" style="margin-left: 15px;margin-right: 15px; ">
             <div class="adv-table" style="margin-left: 15px; margin-right: 15px ;">
-              <h3>Table Rasio Konsistensi</h3>
+              <h3>Tabel Bobot Prioritas</h3>
                               <table  class="display table table-striped table-responsive table-bordered">
                 <thead>
-                  <th>ektor Priotitas X Eigen</th>
+                  <th>vektor Priotitas X Eigen</th>
                   <th>Bobot Prioritas</th>
                   
                 </thead>
@@ -120,7 +123,7 @@
           <div class="content-panel" style="margin-left: 15px;margin-right: 15px; ">
             <div class="adv-table" style="margin-left: 15px; margin-right: 15px ;">
               
-              <h3>Table Rasio Konsistensi</h3>
+              <h3>Tabel Rasio Konsistensi</h3>
                 <table  class="display table table-striped table-responsive table-bordered">
                 <thead>
                   <th>-----  </th>

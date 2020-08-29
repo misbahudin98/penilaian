@@ -1,10 +1,10 @@
     <!--main content start-->
     <section id="main-content">
-      <section class="wrapper site-min-height">
-        <div class="row mt">
+      <section class="wrapper">
 
-          <div class="col-lg-12">
-                      <div class="row content-panel">
+
+        <div class="row">
+          <div class="row content-panel">
               <div class="col-md-4 profile-text mt mb centered">
                 <div class="right-divider hidden-sm hidden-xs">
                 <h3><?= $profil[0]['nama']  ?></h3>
@@ -50,22 +50,34 @@
                   
                 </div>
               </div>
+
               <!-- /col-md-4 -->
+          </div>
+
+   <div class="col-lg-6 main-chart ">
+<center>
+            <div class="border-head">
+              <h3>Grafik Rangking </h3>
             </div>
-                   <?php if ($skor != 0 && $sesi[0]['aksi'] == 1 ) { ?>
-            <div class="row mt">
-              <div class="col-lg-12">
-                    <div class="panel panel-info">
+ <div class="custom-bar-chart" > 
+                <canvas id="mahasiswa" height="700" width="1500"></canvas>
+            </div> 
+</div>      
+      
+        <div   class="row mt " style="height: 400px; padding-left: 50px; padding-right: 20px;">
+            <?php if ($skor != 0 && $sesi[0]['aksi'] == 1 ) { ?>
+                          <div class="col-lg-12">
+                    <div class="panel panel-danger">
                     <div class="panel-heading">
                       <h3 class="panel-title">Isi kuesioner</h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body text-danger">
                       anda memiliki kuesioner yang belum terisi 
                     </div>
                   </div>
               </div>
-            </div>
-                  <?php } ?>
+            
+            <?php } ?>
           </div>
         </div>
       </section>
@@ -106,6 +118,55 @@
   <!--common script for all pages-->
   <script src="<?= base_url();?>assets/js/common-scripts.js"></script>
   <!--script for this page-->
+      <script src="<?php base_url() ?>assets/js/Chart.js"></script>
 
+      <script>
+        function getRandomColor() {
+        var letters = '789ABCD'.split('');
+        var color = '#';
+        for (var i = 0; i < 6; i++ ) {
+            color += letters[Math.round(Math.random() * 6)];
+        }
+        return color;
+    }
+      var bgcolor =[];
+      var hcolor = [];
+      for (var i = 3; i >= 0; i--) {
+          bgcolor.push(getRandomColor());
+          hcolor.push(getRandomColor());
+      }
+
+
+        var ctx = document.getElementById("mahasiswa").getContext('2d');
+    var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels : <?= $tahun['tahun']  ?>,
+
+        datasets: [
+          
+        {
+          label: ['Peringkat'],
+                data :  <?= $tahun['rank']  ?>,
+          backgroundColor: bgcolor,
+          hoverColor: hcolor,            
+          
+        }
+        ]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    });
+
+
+
+      </script>
 </body>
 </html>

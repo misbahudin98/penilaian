@@ -1,6 +1,14 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+require_once 'assets/vendor/autoload.php';
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Writer\Html; 
+use PhpOffice\PhpSpreadsheet\Style\Color;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\Style;
+
 class Admin extends CI_Controller {
 	public function __construct()
 	{
@@ -14,12 +22,80 @@ class Admin extends CI_Controller {
 	}
 	public function index()
 	{
+		$tahun = $this->User->get('buka')->result_array();
+		// var_dump(strpos($tahun[0]['tahun'], 'Genap') ) or die;
+
+
+		if ( intval(date("m")) >= 8 &&   strpos($tahun[0]['tahun'], 'Ganjil') != false  ) {
+			$data['ganti'] = 1;		
+		}
+
+		if ( intval(date("m")) >= 2 && intval(date("m")) < 8 &&   strpos($tahun[0]['tahun'], 'Genap') != false  ) {
+			$data['ganti'] = 1;		
+		}
+
 		$data['skor'] = $this->User->inner()->result_array();
-		$data['buka'] = $this->User->get('buka')->result_array();
+		$data['buka'] = $tahun;
+
 		// var_dump($data) or die;
 		$this->load->view('header');
 		$this->load->view('admin_panel/main',$data);	
 	}
+
+	// public function import_user()
+	// {
+
+	//     $config['upload_path'] = './assets/excel';
+	//     $config['allowed_types'] = 'xlsx';
+	//     $config['overwrite'] = TRUE ;
+	//     $config['file_name'] = "Latihan.xlsx";
+	//     $this->load->library('upload', $config);
+
+	//     if ( !$this->upload->do_upload('file')){
+	//       $error = array('error' => $this->upload->display_errors());
+	//      redirect('user',$error);
+	//     }else{
+	      
+	//       $data = array('upload_data' => $this->upload->data());     
+	//       $path = $data['upload_data']['file_path'].$data['upload_data']['file_name'];
+	//       //create directly an object instance of the IOFactory class, and load the xlsx file
+	//         ini_set('memory_limit', '-1');
+	//         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($path);
+	//       //read excel data and store it into an array
+	//         $xlsx_data = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+
+	//               $nr = count($xlsx_data); //number of rows
+	        
+	//       $excel = [];
+
+
+	//         for($i=3; $i<=$nr; $i++){
+	// 	     $new = $this->User->search('user','id',$xlsx_data[$i]['B'])->result_array();
+
+	// 		 if ( empty($new)   ) {
+	// 	       array_push($excel ,array(
+	//         	'id' => $xlsx_data[$i]['B'],
+	//         	'password' => $xlsx_data[$i]['C'],
+	//         	'nama' => $xlsx_data[$i]['D'],
+	//         	'tanggal_lahir' => $xlsx_data[$i]['E'],
+	//         	'alamat' => $xlsx_data[$i]['F'],
+	//         	'hp' => $xlsx_data[$i]['G'],
+	//         	'level' => $xlsx_data[$i]['H']
+	// 	       )); 
+
+
+	// 		}	        
+
+	// 		// var_dump(array_search($xlsx_data[$i]['B'], $new1));
+	//        }
+
+	//       // var_dump($excel) or die;
+	//     $this->User->import_excel('user',array_values($excel));
+
+	//     redirect('user',array('sukses' => 1 ) );
+	//     }	  
+	// }
+
 	public function session($value)
 	{
 		if ($value == 1){
@@ -27,15 +103,15 @@ class Admin extends CI_Controller {
 		}elseif ($value == 0) {
 			$this->User->update('buka',['aksi' => 0 ],['id' => 1]);
 		}
-		redirect('awal');
+		
 	}
 
 
-	public function average()
+	public function average($tahun)
 	{
-		$atasan  = $this->User->skor('atasan')->result_array();
-		$dosen  = $this->User->skor('dosen')->result_array();
-		$mahasiswa  = $this->User->skor('mahasiswa')->result_array();
+		$atasan  = $this->User->skor('atasan',$tahun)->result_array();
+		$dosen  = $this->User->skor('dosen',$tahun)->result_array();
+		$mahasiswa  = $this->User->skor('mahasiswa',$tahun)->result_array();
 		
 		$dosen1 = $this->User->get_where('kriteria',['level'=> 'rekan'])->result_array();
 		$mahasiswa1 = $this->User->get_where('kriteria',['level'=> 'mahasiswa'])->result_array();
@@ -66,39 +142,49 @@ class Admin extends CI_Controller {
 			$data['atasan'][$i+1]['id'] = $atasan[$i]['id_dosen'] ;
 
 		}
-
+		
 		return $data;
 	}
 
-	public function json($value)
+public function json($value)
 	{	
 		$value = json_decode('['.$value.']' , 1);
 		
 		 // var_dump($value) or die;
 			$data['kepribadian'] = 0;	
-			$data['pendagogik']  = 0;	
 			$data['sosial'] 	 = 0;	
+			if (isset($value[0]['pendagogik']) ) {
+				$data['pendagogik']  = 0;	
+			
+			}
 			if (isset($value[0]['profesional']) ) {
 				$data['profesional'] = 0;	
 			}
 		
 		for ($i=0; $i < count($value); $i++) { 
 			$data['kepribadian'] += $value[$i]['kepribadian'];	
+			if (isset($value[0]['pendagogik']) ) {
+		
 			$data['pendagogik']  += $value[$i]['pendagogik'];	
+			}
 			$data['sosial'] 	 += $value[$i]['sosial'];	
 			if (isset($value[0]['profesional']) ) {
-				$data['profesional'] =  $value[$i]['profesional'];	
+				$data['profesional'] +=  $value[$i]['profesional'];	
 			}
 		}
 		$rata['kepribadian'] = $data['kepribadian'] / count($value);
+		if (isset($value[0]['pendagogik']) ) {
+	
 		$rata['pendagogik'] = $data['pendagogik'] / count($value);
+		}
 		$rata['sosial'] = $data['sosial'] / count($value);
 		if (isset($value[0]['profesional']) ) {
 			$rata['profesional'] = $data['profesional'] / count($value);
 		}	
+
+		// var_dump($rata) or die;
 		return $rata;
 	}
-
 	public function score()
 	{
 		$data['matakuliah']=$this->User->get('matakuliah')->result();
@@ -110,19 +196,51 @@ class Admin extends CI_Controller {
 		$this->load->view('admin_panel/skor',$data);	
 	}
 
-	public function end()
+	public function end($tahun)
 	{
-		$rata =$this->average();
-		$bobot = $this->value($rata);
-		$rank = $this->rank($bobot);
-		$borda = $this->borda($rank);
-		$data = $this->score_borda($borda);
-		// var_dump($data)or die;
-		
 
-		$this->load->view('header');	
-		$this->load->view('admin_panel/borda',$data);	
+		$rata =$this->average($tahun);
+		// var_dump($rata);
+		if(!empty($rata['atasan']) && !empty($rata['dosen']) && !empty($rata['mahasiswa'])){
+			$bobot = $this->value($rata);
+			$rank = $this->rank($bobot);
+			$borda = $this->borda($rank);
+			$data = $this->score_borda($borda);
+			// var_dump($data)or die;		
+			$this->load->view('header');	
+			$this->load->view('admin_panel/borda',$data);	
+		}else{
+			$this->session->set_flashdata('empty',1);
+				$this->load->view('header');	
+			$this->load->view('admin_panel/borda');	
+
+		}
+
+		
 	}
+
+	public function final_score($tahun)
+	{
+			$rata =$this->average($tahun);
+		// var_dump($rata);
+		if(!empty($rata['atasan']) && !empty($rata['dosen']) && !empty($rata['mahasiswa'])){
+
+			$bobot = $this->value($rata);
+			$rank = $this->rank($bobot);
+			$borda = $this->borda($rank);
+			$data = $this->score_borda($borda);
+			// var_dump($data)or die;		
+			$this->load->view('header');	
+			$this->load->view('admin_panel/final',$data);	
+		}else{
+			$this->session->set_flashdata('empty',1);
+				$this->load->view('header');	
+			$this->load->view('admin_panel/final');	
+
+		}
+	}
+
+
 
 	public function score_borda($data)
 	{
@@ -195,6 +313,7 @@ class Admin extends CI_Controller {
 
 	public function rank($data)
 	{
+
 		$atasan = [] ;
 		$dosen = [] ;
 		$mahasiswa = [] ;
@@ -222,18 +341,20 @@ class Admin extends CI_Controller {
 		// 	$a = array_search($dosen2[$i], $dosen);
 			
 		// }
-
-
-		$a= $this->rank_number($dosen);
 		$b= $this->rank_number($atasan);
+		$a= $this->rank_number($dosen);
+		// exit();
 		$c= $this->rank_number($mahasiswa);
-		
+
+		// var_dump($a) or die();
 		for ($i=1; $i <= count($data['dosen']) ; $i++) { 
 
-				$data['dosen'][$i]['rank'] = $a[$i];
+			$data['dosen'][$i]['rank'] = $a[$i];
 			$data['dosen'][$i]['invers_rank'] = $this->invers_value(count($data['dosen']),$a[$i] );
-			
+
 		}
+
+
 		for ($i=1; $i <= count($data['atasan']) ; $i++) { 
 			$data['atasan'][$i]['rank'] = $b[$i];
 			$data['atasan'][$i]['invers_rank'] = $this->invers_value(count($data['atasan']),$b[$i] );
@@ -258,6 +379,7 @@ class Admin extends CI_Controller {
 
 	public function invers_value($value,$data)
 	{
+
 		$des = [];
 		for ($i= $value; $i > 0  ; $i--) { 
 		 	array_push($des, $i);	
@@ -269,25 +391,37 @@ class Admin extends CI_Controller {
 		for ($i=0; $i < $value ; $i++) { 
 			$index =  array_search($data, $asc);
 		}
-		// var_dump($index) or die;
 		return  $des[$index];
 	}	
 	public function rank_number($data)
 	{
-		$data1 = $data;
-		arsort($data1);
-		$data2 = [];
-		$c =1; 
-		foreach ($data1 as $key => $value) {
-			$data2[$c] = $value; 
-			$c++;
-		}
-		$a =[];
-		for ($i=1; $i <= count($data); $i++) { 
-			$rank = array_search($data2[$i], $data);
-			$a[$rank] = $i;
-		}
-		ksort($a);
+		// var_dump($data);
+
+		arsort($data);
+				$a = [ 0 => 0] ;
+			foreach ($data as $key => $value ) {
+				
+				array_push($a, $key );
+			}
+					unset($a[0]);
+		// var_dump($a) or die;
+
+		// $data1 = $data;
+
+		// arsort($data1);
+		// $data2 = [];
+		// $c =1; 
+		// foreach ($data1 as $key => $value) {
+		// 	$data2[$c] = $value; 
+		// 	$c++;
+		// }
+		// $a =[];
+		// for ($i=1; $i <= count($data); $i++) { 
+		// 	$rank = array_search($data2[$i], $data);
+		// 	$a[$rank] = $i;
+ 	// 	}
+		// 	var_dump($data2) ;
+
 		return $a;
 	}
 
@@ -297,7 +431,7 @@ class Admin extends CI_Controller {
 		$mahasiswa = $this->User->get_where('kriteria',['level'=> 'mahasiswa'])->result_array();
 		$atasan = $this->User->get_where('kriteria',['level'=> 'atasan'])->result_array();
 		
-		// var_dump($data) or die;
+		// var_dump($data['dosen'][1]['kepribadian']) or die;
  		for ($i= 1; $i <= count($data['dosen']) ; $i++) { 
 
 			$bobot[0] = $data['dosen'][$i]['kepribadian'] * $dosen[0]['bobot'];
@@ -331,7 +465,7 @@ class Admin extends CI_Controller {
 		for ($i=1; $i <= count($data['atasan']) ; $i++) { 
 			
 			$bobot[0] = $data['atasan'][$i]['kepribadian'] * $atasan[0]['bobot'];
-			$bobot[1] = $data['atasan'][$i]['pendagogik'] * $atasan[1]['bobot'];
+			$bobot[1] = $data['atasan'][$i]['profesional'] * $atasan[1]['bobot'];
 			$bobot[2] = $data['atasan'][$i]['sosial'] * $atasan[2]['bobot'];
 			$b = $bobot[0] + $bobot[1] + $bobot[2] ;
 			
@@ -344,6 +478,7 @@ class Admin extends CI_Controller {
 			
 
 		}
+		// var_dump($data) OR DIE;
 		return $data;
 
 	}
@@ -352,7 +487,17 @@ class Admin extends CI_Controller {
 	{
 
 		$data= ['nama'   =>	$this->input->post('nama') ];
+		
+		$check = $this->User->get_where('matakuliah',$data)->result_array();
+
+		if (empty($check)) {
+
 		$this->User->insert('matakuliah',$data);
+		} else{
+			$this->session->set_flashdata('duplikat', 1);
+		}
+
+
 	
 		redirect(base_url('skor'));
 	}
@@ -382,15 +527,25 @@ class Admin extends CI_Controller {
 
 	public function add_score()
 	{
+		$tahun = $this->User->get('buka')->result_array();
 		$data= [
 			'id_dosen'   =>	$this->input->post('dosen'),
-			'id_penilai'   =>	$this->input->post('penilai')			
+			'id_penilai'   =>	$this->input->post('penilai'),
+			'tahun'	=> $tahun[0]['tahun']		
 			 ];
 		$data['matakuliah'] = $this->input->post('matakuliah') !== '0' ? $this->input->post('matakuliah') : null ;
 
 		// var_dump($data) or die;
+
+		$check = $this->User->get_where('skor_awal',$data)->result_array();
+
+		if (empty($check)) {
+
 		$this->User->insert('skor_awal',$data);
-	
+		} else{
+			$this->session->set_flashdata('duplikat1', 1);
+		}
+
 		redirect(base_url('skor'));
 	}
 
@@ -408,6 +563,7 @@ class Admin extends CI_Controller {
 			$data['que']=$this->User->que($level)->result();
 			// $data['que']=$this->User->que()->result();
 			// var_dump($data['que']) or die;
+			
 			$this->load->view('header');
 
 			$this->load->view('admin_panel/que',$data);	
@@ -419,7 +575,19 @@ class Admin extends CI_Controller {
 			$data= [ 'kuesioner'   =>	$this->input->post('kuesioner') ];
 		
 				$data['id_kriteria'] = $this->input->post('kriteria');
+
+		$check = $this->User->get_where('kuesioner',$data)->result_array();
+
+		if (empty($check)) {
+
 				$this->User->insert('kuesioner',$data);
+		} else{
+			$this->session->set_flashdata('duplikat', 1);
+		}
+
+
+	
+
 		
 			redirect(base_url('que/'.$this->session->flashdata('type')));
 	}
@@ -561,17 +729,30 @@ class Admin extends CI_Controller {
 				'alamat' 			=>	$alamat,
 				'hp' 			=>	$hp,
 				'level' 		=>	$level ];		
-		$this->User->insert('user',$data);
+
+
+		$check = $this->User->get_where('user',array('id' => $id))->result_array();
+
+		if (empty($check)) {
+			$this->User->insert('user',$data);
+		} else{
+			$this->session->set_flashdata('duplikat', 1);
+		}
 
 		redirect(base_url('user'));
 	}
 
-	public function delete_user($id)
+	public function delete_user($id,$level)
 	{
-		$where = ['id'=> $id];
+		if($level == 'admin'){
+			$this->session->set_flashdata('admin', 1);
+			redirect('user');
+		} else{
+				$where = ['id'=> $id];
 		$this->User->delete('user',$where);
 		
-		redirect(base_url('user'));
+			redirect('user');
+		}
 	}
 
 	public function update_user()
@@ -667,7 +848,7 @@ class Admin extends CI_Controller {
 				array_push($id, $bobot->id);
 				array_push($nilai, $bobot->nilai);
 			 
-			}
+			}	
 
 			$data = $this->matrik_3($nilai);
 
@@ -704,6 +885,7 @@ class Admin extends CI_Controller {
 			$data = $this->matrik_3($nilai);
 
 		}
+		// var_dump($data) or die;
 		$this->load->view('header', $data);
 		$this->load->view('admin_panel/bobot', $data);
 	}
@@ -757,13 +939,14 @@ class Admin extends CI_Controller {
 			$hasil['jumlah'] = $this->increase_column($hasil['awal']);
 			$hasil['pembagian'] = $this->devide_matrix($hasil['awal'],$hasil['jumlah']) ;
 			$hasil['rata'] = $this->average_matrix($hasil['pembagian']);
+
 			$hasil['pembagian'][4] =  [];
 			for ($i=0; $i < 4; $i++) { 
 				array_push($hasil['pembagian'][4], $hasil['rata'][$i]);
 			}
-			// var_dump($hasil) or die();
 			
 			$hasil['kali'] = $this->multiply_matrix($hasil['awal'],$hasil['rata']);
+
 			$hasil['prioritas'] = $this->priority_matrix($hasil['kali'],$hasil['rata']);
 			$hasil['max'] = array_sum($hasil['prioritas'])/ count($hasil['prioritas']);
 			$hasil['ci'] = ($hasil['max']-4)/(3);
@@ -808,10 +991,11 @@ class Admin extends CI_Controller {
 			    function($value) { return (float)$value; },
 			    $data[2]
 			);
-
 			$hasil['awal'] = $data;
 			$hasil['jumlah'] = $this->increase_column($hasil['awal']);
 			$hasil['pembagian'] = $this->devide_matrix($hasil['awal'],$hasil['jumlah']) ;
+			// var_dump($hasil['pembagian']) or die;
+
 			$hasil['rata'] = $this->average_matrix($hasil['pembagian']);
 			$hasil['pembagian'][4] =  [];
 			for ($i=0; $i < 3; $i++) { 
@@ -861,13 +1045,14 @@ class Admin extends CI_Controller {
 
 	public function devide_matrix($data ,$jumlah)
 	{
+		// var_dump($data)
 		if (count($data) == 3) {
 
-			 	for ($i=0; $i < 3; $i++) { 
+	 	for ($i=0; $i < 3; $i++) { 
+			 		
 			 	$data[$i][0] = $data[$i][0] / $jumlah[0];
 			 	$data[$i][1] = $data[$i][1] / $jumlah[1];
 			 	$data[$i][2] = $data[$i][2] / $jumlah[2];
-			 		
 			 	}		  
 		}
 		elseif (count($data) == 4) {
@@ -878,6 +1063,7 @@ class Admin extends CI_Controller {
 			 	$data[$i][3] = $data[$i][3] / $jumlah[3];
 			 } 
 		}
+
 		return $data;
 	}
 
@@ -924,7 +1110,7 @@ class Admin extends CI_Controller {
 
 	public function average_matrix($data)
 	{
-
+		//var_dump($data) or die;
 		if (count($data) == 3) {
 
 	 		$rata[0] = $data[0][0] +  $data[0][1] + $data[0][2] ;
@@ -1006,6 +1192,23 @@ class Admin extends CI_Controller {
 
 		}
 		return $value ;
+	}
+
+	public function update_semester()
+	{
+		$data = intval(date('m')) ;
+		$year = intval(date('yy')) ;
+		$min = $year -1;
+		$plus=$year +1 ;
+	
+		$buka = $this->User->get('buka')->result_array(); 
+		if ($data >=  2 && $data <  8 && strpos($buka[0]['tahun'], 'Ganjil') != false) {
+		
+			$this->User->update('buka',array('tahun' => $min."-".$year."_Genap"),array('id' => 1));
+		}elseif ($data >=  8 && strpos($buka[0]['tahun'], 'Genap') != false) {
+			$this->User->update('buka',array('tahun' => $year."-".$plus."_Ganjil"),array('id'=> 1));
+		}
+			redirect(base_url('awal'));
 	}
 }
 

@@ -49,18 +49,30 @@
       </div>
       <section class="wrapper site-min-height">
         <h3><i class="fa fa-angle-right"></i>Tabel Penlilaian</h3>
+          <div class="alert alert-danger">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                              <strong>Perhatian !</strong> Nilai Terbesar = 5
+                            </div>                  
         <div class="row ">
           <!-- page start-->
           <div class="content-panel" style="margin-left: 15px;margin-right: 15px; ">
             <div class="adv-table" style="margin-left: 15px; margin-right: 15px ;">
             
-              <table cellpadding="0" cellspacing="0" border="0" class="display table table-bordered" id="hidden-table-info">
+              <table cellpadding="0" cellspacing="0" border="0" class="display table  table-bordered" id="hidden-table-info">
                 <thead>
-                  <th>No</th>
-                  <th>Kuesioner</th>
+                  <tr>
+                  <th rowspan="2" style="vertical-align:middle">No</th>
+                  <th rowspan="2" style="vertical-align:middle">Kuesioner</th>
 
-                  <th>Penilaian</th>
-
+                  <th colspan="5"><center>Penilaian</th>
+                  </tr>
+                  <tr>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>4</th>
+                    <th>5</th>
+                  </tr>
                 </thead>
                 <tbody>
                   <form method="post" action="<?= base_url('simpan_nilai')  ?>" >
@@ -74,16 +86,22 @@
 
                       <td>
 
-                        <select name="<?= $value['id'] ?>" required>
-                          <option value="">Nilai</option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                          <option value="4">4</option>
-                          <option value="5">5</option>
-                        </select>
-
+                        <input type="radio" name="<?= $value['id'] ?>" value="1" required>
+                        
                       </td>
+                      <td>
+                        <input type="radio" name="<?= $value['id'] ?>" value="2" >
+                      </td>
+                      <td>
+                        <input type="radio" name="<?= $value['id'] ?>" value="3">
+                      </td>
+                      <td>
+                        <input type="radio" name="<?= $value['id'] ?>" value="4">
+                      </td>
+                      <td>
+                        <input type="radio" name="<?= $value['id'] ?>" value="5">
+                        </td>
+                      
 
                     <input type="text" name="id" value="<?= $this->uri->segment(2)  ?>" hidden>
                     </tr>

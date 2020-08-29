@@ -259,7 +259,12 @@ select {
       </div>
 
         <h3><i class="fa fa-angle-right"></i>Data Matakuliah</h3>
-    
+            <?php if($this->session->flashdata('duplikat')) {?>
+          <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong>Duplikat!</strong> anda memasukkan value yang sama
+          </div>
+        <?php } ?>
         <div class="row mt">
           <!-- page start-->
           <div class="content-panel" style="margin-left: 15px;margin-right: 15px; ">
@@ -300,7 +305,7 @@ select {
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <input type="submit" class="btn btn-primary add" name="tambah" value="tambah1">
+                                <input type="submit" class="btn btn-primary add" name="tambah" value="ganti">
                               </div>
                               </form>
                             </div>
@@ -315,6 +320,12 @@ select {
         </div>
           <div id="results"></div>
         <h3><i class="fa fa-angle-right"></i>Data Penilai Dosen </h3>
+        <?php  if($this->session->flashdata('duplikat1')) {?>
+          <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong>Duplikat!</strong> anda memasukkan value yang sama
+          </div>
+        <?php } ?>
         <div class="row mt">
           <!-- page start-->
           <div class="content-panel" style="margin-left: 15px;margin-right: 15px; ">

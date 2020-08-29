@@ -1,16 +1,30 @@
     <!--main content start-->
     <section id="main-content">
       <section class="wrapper site-min-height">
-             <div class="row">
-          <div class="col-lg-9 main-chart">
+          <div class="col-lg-12 main-chart">
             <!--CUSTOM CHART START -->
                <!--custom chart end-->
-            <div class="row mt">
+            <div class="row">
               <!-- SERVER STATUS PANELS -->
                   <!-- /col-md-4 -->
-              
+              <h3></i>Seputar Kuesioner</h3>
+                <div class="alert alert-success">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <strong>Sesi Sedang</strong> <?= $buka[0]['aksi'] == 1 ? 'dibuka' : 'ditutup' ?>
+                  <h3><?php if ($buka[0]['aksi'] == 1) { ?>
+                      <a class="btn btn-danger" href="<?= base_url('sesi/0') ?>">Tutup Sesi</a>  
+                   <?php }else{ ?>
+                      <a class="btn btn-success" href="<?= base_url('sesi/1')  ?>">Buka Sesi</a>
+                   <?php } ?></h3>
+
+                     <br>Saat ini sistem berada pada tahun<h4>  <?= str_replace('_', " semester ", $buka[0]['tahun']) ?></h4><br><br>
+                 <?php if (!isset($ganti) ) { ?>
+                     <a class="btn btn-success" href="<?= base_url('ganti')  ?>">Pergantian Semester </a> 
+                 <?php } ?>
+                        
+               </div>
                 <!-- REVENUE PANEL -->
-                <div class="green-panel pn" style="margin-left: 200px;margin-right: 200px; ">
+                <!-- <div class="green-panel pn" style="margin-left: 200px;margin-right: 200px; ">
                   <div class="green-header">
                     <h5>Sesi Kuesioner</h5>
                   </div>
@@ -20,7 +34,7 @@
                    <?php }else{ ?>
                       <a class="btn btn-success" href="<?= base_url('sesi/1')  ?>">Buka Sesi</a>
                    <?php } ?>
-                </div>
+                </div> -->
               
               <!-- /col-md-4 -->
             </div>
@@ -32,11 +46,7 @@
           <!-- **********************************************************************************************************************************************************
               RIGHT SIDEBAR CONTENT
               *********************************************************************************************************************************************************** -->
-          <div class="col-lg-3 ds">
-            <!--COMPLETED ACTIONS DONUTS CHART-->
-            
-            <!--new earning end-->
-            <!-- RECENT ACTIVITIES SECTION -->
+          <div class="col-lg-12 ds" style="height: 1200px;">
             <h4 class="centered mt">Report</h4>
             <!-- First Activity -->
             <?php foreach ($skor as $key ): ?>
@@ -53,10 +63,9 @@
               </div>
             </div>
             <?php endforeach ?>
+            
             <!-- Second Activity -->
-      
-          </div>
-          <!-- /col-lg-3 -->
+          </div><!-- /col-lg-3 -->
         </div>
 
       </section>

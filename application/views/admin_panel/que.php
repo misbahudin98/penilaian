@@ -8,7 +8,7 @@
     <?php $this->session->set_flashdata( [ 'type' => $this->uri->segment(2) ] );  ?>
     <section id="main-content">
 
-      <section class="wrapper site-min-height">
+      <section class="wrapper">
       <div class="modal fade" id="add">
         <div class="modal-dialog modal-sm">
           <div class="modal-content">
@@ -35,14 +35,14 @@
                 <select class="form-control form-control-inline input-medium " name="kriteria" required>
                   <option value="4">Kepribadian</option>
                   <option value="5">Pendagogik</option>
-                  <option value="6">Profesional</option>
-                  <option value="7">Sosial</option>
+                  <option value="7">Profesional</option>
+                  <option value="6">Sosial</option>
                 </select> 
             <?php } elseif ($this->uri->segment(2) == 'atasan') {?>
                 <label class="control-label col-md-3">Kriteria</label>
                 <select class="form-control form-control-inline input-medium " name="kriteria" required>
                   <option value="8">Kepribadian</option>
-                  <option value="9">Pendagogik</option>
+                  <option value="9">Profesional</option>
                   <option value="10">Sosial</option>
                 </select>
             <?php  } ?>
@@ -56,7 +56,13 @@
           </div>
         </div>
       </div>
-        <h3><i class="fa fa-angle-right"></i>Kusioner <?= ucfirst($this->uri->segment(2))  ?></h3>
+        <h3><i class="fa fa-angle-right"></i>Kuesioner <?= ucfirst($this->uri->segment(2))  ?></h3>
+                <?php  if($this->session->flashdata('duplikat')) {?>
+          <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong>Duplikat!</strong> anda memasukkan value yang sama
+          </div>
+        <?php } ?>
         <div class="row mt">
           <!-- page start-->
           <div class="content-panel" style="margin-left: 15px;margin-right: 15px; ">
@@ -117,9 +123,9 @@
                                         >Kepribadian</option>
                                         <option value="5" <?= $value->kriteria == 'pendagogik' ? 'selected' :'';  ?>
                                         >Pendagogik</option>
-                                          <option value="6" <?= $value->kriteria == 'profesional' ? 'selected' :'';  ?>
+                                          <option value="7" <?= $value->kriteria == 'profesional' ? 'selected' :'';  ?>
                                           >Profesional</option>
-                                        <option value="7" <?= $value->kriteria == 'sosial' ? 'selected' :'';  ?>
+                                        <option value="6" <?= $value->kriteria == 'sosial' ? 'selected' :'';  ?>
                                         >Sosial</option>
                                       </select>
                                     <?php } elseif ($this->uri->segment(2) == 'atasan'){?>
@@ -127,8 +133,8 @@
                                       <select class="form-control form-control-inline input-medium " name="kriteria" required>
                                         <option value="8"  <?= $value->kriteria == 'kepribadian' ? 'selected' :'';  ?>
                                         >Kepribadian</option>
-                                        <option value="9" <?= $value->kriteria == 'pendagogik' ? 'selected' :'';  ?>
-                                        >Pendagogik</option>
+                                        <option value="9" <?= $value->kriteria == 'profesional' ? 'selected' :'';  ?>
+                                        >Profesional</option>
                                         <option value="10" <?= $value->kriteria == 'sosial' ? 'selected' :'';  ?>
                                         >Sosial</option>
                                       </select>
@@ -137,7 +143,7 @@
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <input type="submit" class="btn btn-primary add" name="tambah" value="tambah1">
+                                <input type="submit" class="btn btn-primary add" name="tambah" value="ganti">
                               </div>
                               </form>
                             </div>

@@ -1,6 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+
+$tahun = $this->db->query("select DISTINCT tahun from skor_awal")->result_array();
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
       </div>
       <!--logo start-->
-      <a href="index.html" class="logo"><b>DASH<span>IO</span></b></a>
+      <a href="index.html" class="logo"><b>Penilaian<span>Kinerja Dosen</span></b></a>
       <!--logo end-->
       <div class="top-menu">
         <ul class="nav pull-right top-menu">
@@ -100,14 +104,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </ul>
           </li>
           <li class="sub-menu ">
+            <a  href="<?= base_url('skor') ?>"><!-- class="active" -->
+              <i class="fa fa-pencil"></i>
+              <span>Penilai</span>
+              </a>
+          </li>
+
+          <li class="sub-menu ">
             <a  href="javascript:;"><!-- class="active" -->
               <i class="fa fa-edit"></i>
               <span>Skor</span>
               </a>
             <ul class="sub">
-              <li ><a href="<?= base_url('skor') ?>">Penilai</a></li>
-              <!-- <li ><a href="<?= base_url('kue') ?>">Rata - Rata Penilaian</a></li> -->
-              <li ><a href="<?= base_url('akhir')  ?>">Skor Akhir</a></li>
+              <?php foreach ($tahun as $key ): ?>
+                     <li ><a href="<?= base_url('akhir/'.$key['tahun'])  ?>"><?= str_replace('_', " ", $key['tahun'])  ?></a></li>
+
+              <?php endforeach ?>
             </ul>
           </li>
           <?php } else { ?>
@@ -130,4 +142,3 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <!-- sidebar menu end-->
       </div>
     </aside>
-

@@ -16,9 +16,34 @@
 
 
       <section class="wrapper site-min-height">
-   
-        <h3><i class="fa fa-angle-right"></i>Nilai Rata-rata Dari Kuesioner</h3>
+        <?php 
+        if ($this->session->flashdata('empty') == 1 ) { ?>
+           
+        <div class="row mt">
+          <!-- page start-->
+
+          <div class="content-panel" style="margin-left: 15px;margin-right: 15px; ">
+            <div class="adv-table" style="margin-left: 15px; margin-right: 15px ;">
+                <h3>Maaf data penilai maupun skor masih kurang untuk dilakukan perhitungan</h3>
+            </div>
+          </div>
+
+        </div>
+        <?php } else {?>
+      <div class="alert alert-info">
         
+       <h3> Berikut tampilan perhitungan pada tahun pelajaran <?= str_replace('_', ' Semester', $this->uri->segment(2) )  ?> </h3>
+       <br>
+       <h4>Untuk Hasil perangkingan bisa dilihat di tabel paling bawah atau lebih tepatnya Tabel Perhitungan skor Borda.</h4>
+
+        <div class="alert alert-success">
+          
+        <h3>  Silahkan menekan tombol berikut untuk melihat hasil beserta rangking   </h3>
+         <a href="<?= base_url('penilaian/'.$this->uri->segment(2))  ?>" class="btn btn-primary">Hasil</a>
+        </div>
+      </div>
+      <h3><i class="fa fa-angle-right"></i>Nilai Rata-rata Dari Kuesioner</h3>
+
         <div class="row mt">
           <!-- page start-->
 
@@ -66,7 +91,7 @@
                 <thead>
                   <th>Atasan</th>
                   <th>Kepribadian</th>
-                  <th>Pendagogik</th>
+                  <th>Profesional</th>
                   <th>Sosial</th>
                    
                 </thead>
@@ -77,7 +102,7 @@
 
                       <td><?= $atasan[$i]['id']  ?></td>                      
                       <td><?= $atasan[$i]['kepribadian']   ?></td>
-                      <td><?= $atasan[$i]['pendagogik']   ?></td>
+                      <td><?= $atasan[$i]['profesional']   ?></td>
                       <td><?= $atasan[$i]['sosial']   ?></td>           
                                  
                      
@@ -190,7 +215,7 @@
                 <thead >
                   <th>Atasan</th>
                   <th>Kepribadian</th>
-                  <th>Pendagogik</th>
+                  <th>Profesional</th>
                   <th>Sosial</th>
                   <th>Jumlah</th>
                    
@@ -246,13 +271,13 @@
             </div>
           </div>
           
-                  <h3><i class="fa fa-angle-right"></i>Perkalian Indikator dengan bobot</h3>
+                  <h3><i class="fa fa-angle-right"></i>Perangkingan </h3>
         
         <div class="row mt">
           <!-- page start-->
-          <div class="col-md-4">
+           <div class="col-md-4">
             
-          <div class="content-panel" style="margin-left: 10px ">
+            <div class="content-panel" style="margin-left: 10px ">
             <div class="adv-table" style="margin-left: 15px; margin-right: 15px ;">
             
               <table cellpadding="0" cellspacing="0" border="0" class="display table table-bordered" id="mahasiswa2">
@@ -280,10 +305,10 @@
                 </tbody>
               </table>
             </div>
-          </div>
-          </div>
-          <div class="col-md-4">
-          <div class="content-panel">
+            </div>
+            </div>
+           <div class="col-md-4">
+           <div class="content-panel">
             <div class="adv-table" style="margin-left: 15px; margin-right: 15px ;">
 
             <table cellpadding="0" cellspacing="0" border="0" class="display table table-bordered" id="atasan2">
@@ -311,10 +336,10 @@
                 </tbody>
               </table>
             </div>
-          </div>
-          </div>
-          <div class="col-md-4">
-          <div class="content-panel" style="margin-right: 15px; ">
+            </div>
+            </div>
+            <div class="col-md-4">
+            <div class="content-panel" style="margin-right: 15px; ">
             <div class="adv-table" style="margin-left: 15px; margin-right: 15px ;">
 
             <table cellpadding="0" cellspacing="0" border="0" class="display table table-bordered" id="dosen2">
@@ -342,16 +367,16 @@
                 </tbody>
               </table>
             </div>
-          </div>
-          </div>
+            </div>
+            </div>
 
         </div>     
 
         <h3><i class="fa fa-angle-right"></i>Perhitungan skor borda</h3>
         
-           <div class="row mt">
+        <div class="row mt">
 
-          <div class="content-panel" style="margin-left: 15px;margin-right: 15px; ">
+            <div class="content-panel" style="margin-left: 15px;margin-right: 15px; ">
             <div class="adv-table" style="margin-left: 15px; margin-right: 15px ;">
             
               <table cellpadding="0" cellspacing="0" border="0" class="display table table-bordered" id="borda">
@@ -403,8 +428,8 @@
                       <?php } ?>
 
 
-                        <td>Bobot Borda</td>
-                        <td>Bobot Borda</td>
+                        <td><?= $jumlah_borda  ?></td>
+                        <td></td>
 
                       </tr>
 
@@ -412,8 +437,9 @@
               </table>
 
             </div>
-          </div>
+            </div>
         </div>
+        <?php } ?>
 
       </section>
       <!-- /wrapper -->

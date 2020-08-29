@@ -9,20 +9,20 @@
 
       <div class="modal fade" id="add">
         <div class="modal-dialog modal-sm">
-          <div class="modal-content">
+          <div class="modal-content" style="width: 500px; justify-content: center; ">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
               <h4 class="modal-title">Tambah user</h4>
             </div>
             <form method="post"  action="<?= base_url('tambah_user') ?>" class="form-user">
             <div class="modal-body">
-              <label class="control-label col-md-3">Id</label>
+              <label class="control-label col-md-3">ID</label>
               
               <input class="form-control form-control-inline input-medium " type="number" minlength="12" name="id" required>
                <br>
-              <label class="control-label col-md-3">Pasword</label>
+              <label class="control-label col-md-3">Password</label>
               
-              <input class="form-control form-control-inline input-medium " type="text" name="password" required>
+              <input class="form-control form-control-inline input-medium "  type="password" name="password" required>
               <br>
               <label class="control-label col-md-3">Nama</label>
               
@@ -60,8 +60,53 @@
           </div>
         </div>
       </div>
-      <section class="wrapper site-min-height">
+
+      <div class="modal fade" id="import">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title">Import data excel</h4>
+            </div>
+            <div class="modal-body">
+              <form method="post" action="<?= base_url('isi_user')  ?>" enctype="multipart/form-data">
+                
+                  <input type="file" name="file" class="form-control" id="file" required> 
+                      <hr>  
+                      <input type="submit"  class="btn btn-primary" value="Import" name="import">
+
+              </form>
+              
+            </div>
+            <div class="modal-footer">
+            </div>
+          </div>
+        </div>
+      </div>
+      <section class="wrapper">
         <h3><i class="fa fa-angle-right"></i>Data User</h3>
+
+        <?php if(isset($error)){ ?>
+        <div class="alert alert-danger">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <strong>Error!</strong> <?= $error  ?> 
+                  </div>          
+        <?php } else if(isset($sukses)) {?>
+        <div class="alert alert-success">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <strong>Sukses!</strong> Data berhasil di import
+        </div>
+        <?php } else if($this->session->flashdata('admin')) {?>
+        <div class="alert alert-warning">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <strong>Admin!</strong>  Tidak bisa dihapus
+        </div>
+        <?php } else if($this->session->flashdata('duplikat')) {?>
+          <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong>Duplikat!</strong> anda memasukkan value yang sama
+          </div>
+        <?php } ?>
         <div class="row ">
           <!-- page start-->
           <div class="content-panel" style="margin-left: 15px;margin-right: 15px; ">
@@ -71,6 +116,7 @@
                 <thead>
                   <th>No</th>
                   <th>ID</th>
+                  <th>Password</th>
 
                   <th>Nama</th>
                   <th>Tanggal Lahir</th>
@@ -81,11 +127,12 @@
                 </thead>
                 <tbody>
                   <?php
-                    $no=0;
+                    $no=1;
                    foreach ($user as $value): ?>
                     <tr>
                       <td><?= $no++  ?></td>
                       <td><?= $value->id  ?></td>
+                      <td><?= $value->password  ?></td>
 
                       <td><?= $value->nama  ?></td>
                       <td><?= $value->tanggal_lahir  ?></td>
@@ -94,7 +141,7 @@
                       <td><?= $value->level  ?></td>
                       <td>
                         <a class="btn btn-primary" data-toggle="modal" href='#<?= $value->id ?>'>Edit</a>
-                        <a href="<?= base_url('hapus_user/'.$value->id) ?>" class="btn btn-danger" 
+                        <a href="<?= base_url('hapus_user/'.$value->id.'/'.$value->level) ?>" class="btn btn-danger" 
                           onclick = "if (! confirm('apakah anda yakin ingin menghapus ?')) { return false; }">Delete</a>
                         
                       </td>
@@ -145,7 +192,7 @@
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <input type="submit" class="btn btn-primary add" name="tambah" value="tambah1">
+                                <input type="submit" class="btn btn-primary add" name="tambah" value="ganti">
                               </div>
                               </form>
                             </div>
@@ -201,6 +248,10 @@
     <script type="text/javascript" language="javascript" src="<?= base_url('')  ?>assets/js/jquery.dataTables.js"></script>
   <!-- <script type="text/javascript" src="<?= base_url()  ?>assets/js/DT_bootstrap.js"></script> -->
     <script type="text/javascript" src="<?= base_url('')  ?>assets/js/dataTables.buttons.min.js"></script>  
+        <script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"> </script>
+<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js"> </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"> </script>
+<!-- <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.colVis.min.js"></script> -->
   <script type="text/javascript">
     /* Formating function for row details */
 
@@ -229,11 +280,19 @@
           ],
            dom: 'Bfrtip',
         buttons: [
-            {text: 'Tambah User',className: 'btn btn-info',
+            {text: 'Tambah User',className: '',
               action: function ( e, dt, node, config ) {
                 $('#add').modal('show');
               }
+            },
+              {text: 'import User',className: '',
+              action: function ( e, dt, node, config ) {
+                                $('#import').modal('show');
+              }
             }
+            ,
+            {extend : 'excel',title: 'Perkalian Skor Awal dengan Bobot Mahasiswa' }
+
         ]  
       });
 

@@ -49,11 +49,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-
 $route['awal'] = 'Admin';
 $route['skor'] = 'Admin/score';
 $route['tambah_skor'] = 'Admin/add_score';
-$route['akhir'] = 'Admin/end';
+$route['akhir/(:any)'] = 'Admin/end/$1';
 $route['ubah_skor'] = 'Admin/update_score';
 $route['hapus_skor/(:num)'] = 'Admin/delete_score/$1';
 
@@ -61,24 +60,24 @@ $route['tambah_matakuliah'] = 'Admin/add_matakuliah';
 $route['ubah_matakuliah'] = 'Admin/update_matakuliah';
 $route['hapus_matakuliah/(:num)'] = 'Admin/delete_matakuliah/$1';
 
-
 $route['user'] = 'Admin/user';
+$route['isi_user'] = 'Admin/import_user';
 $route['tambah_user'] = 'Admin/add_user';
 $route['ubah_user'] = 'Admin/update_user';
-$route['hapus_user/(:num)'] = 'Admin/delete_user/$1';
-
+$route['hapus_user/(:num)/(:any)'] = 'Admin/delete_user/$1/$2';
 
 $route['ubah_bobot/(:any)'] = 'Admin/update_value/$1';
 $route['kriteria/(:any)'] = 'Admin/criteria/$1';
 $route['perhitungan/(:any)'] = 'Admin/count/$1';
 $route['sesi/(:any)'] = 'Admin/session/$1';
-
-
+$route['penilaian/(:any)'] = 'Admin/final_score/$1';
 
 $route['que/(:any)'] = 'Admin/que/$1';
 $route['tambah_que'] = 'Admin/add_que';
 $route['ubah_que'] = 'Admin/update_que';
 $route['hapus_que/(:num)'] = 'Admin/delete_que/$1';
+
+$route['ganti'] = 'Admin/update_semester';
 
 $route['penilai'] = 'Assessor';
 $route['pilih'] = 'Assessor/que';

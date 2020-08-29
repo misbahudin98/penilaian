@@ -59,7 +59,7 @@
     <section id="main-content">
 
       <section class="wrapper site-min-height">
-        <h3><i class="fa fa-angle-right"></i>Perhitungan Bobot</h3>
+        <h3><i class="fa fa-angle-right"></i>Tingkat Kepentingan</h3>
         
           <?php //var_dump($bobot) or die;
           if ($this->session->flashdata('sukses') != null): ?>
@@ -81,9 +81,15 @@
                 <br><br>  
                   <h4>Kepribadian</h4>
                 <br> <br>
+              <?php if ($this->uri->segment(2) == 'rekan' or $this->uri->segment(2) == 'mahasiswa') { ?>
                   <h4>Pendagogik</h4>
+                <br><br>  
+              <?php } elseif ($this->uri->segment(2) == 'atasan') { ?>
+                  <h4>Profesional</h4>
+                  <br><br>
+              <?php } ?>         
                <?php if ($this->uri->segment(2) == 'rekan') { ?>
-                 <br> <br>
+                 
                   <h4>Kepribadian</h4>
                  <br> <br>
                   <h4>Pendagogik</h4>
@@ -236,8 +242,13 @@
               </div>
               <div class="col-md-2">
                <br><br>
+              <?php if ($this->uri->segment(2) == 'rekan' or $this->uri->segment(2) == 'mahasiswa') { ?>
                   <h4>Pendagogik</h4>
                 <br><br>  
+              <?php } elseif ($this->uri->segment(2) == 'atasan') { ?>
+                  <h4>Profesional</h4>
+                  <br><br>
+              <?php } ?>                
                   <h4>Sosial</h4>
                 <br> <br>
                   <h4>Sosial</h4>
