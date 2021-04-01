@@ -14,9 +14,12 @@ http://produkta.jti.polinema.ac.id/~S285/
 
 You can use this username
 
-login as admin			Username : 123	Password : 123										 																						
+login as admin			Username : 123	Password : 123				
+
 login as superiors	Username : 1		Password : 1		
+
 login as colleague	Username : 2		Password : 2		
+
 login as students		Username : 3		Password : 3
 
 *******************
